@@ -23,7 +23,7 @@ export function SiteHeader() {
           <SidebarIcon />
         </Button>
         <Separator orientation="vertical" className="mr-2 h-4" />
-        A Very Random Introduction
+        <div className="hidden md:block">A Very Random Introduction</div>
         <SearchForm className="w-full sm:ml-auto sm:w-auto" />
         <ThemeToggleButton />
       </div>
