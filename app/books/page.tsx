@@ -1,5 +1,3 @@
-"use client";
-
 import { books } from "@/lib/databank/books";
 
 import {
@@ -11,46 +9,68 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { buttonVariants } from "@/components/ui/button";
-import { parsePubDate } from "@/lib/utils";
+
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { Ellipsis } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { parsePubDate } from "@/lib/utils";
 
 export default function Page() {
   return (
-    <div className="grid grid-cols-1 gap-6 p-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+    <div className="grid grid-cols-1 gap-6 p-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
       {books
         .filter((book) => book.coverUrl)
+        .sort(
+          (a, b) =>
+            parsePubDate(a.pubDate).getTime() -
+            parsePubDate(b.pubDate).getTime(),
+        )
         .map((book) => {
-          const pubDate = parsePubDate(book.pubDate);
           return (
             <Card
               key={book.isbn}
-              className="col-span-1 flex flex-col justify-between"
+              className="col-span-1 flex aspect-[2/3] flex-col justify-between"
             >
               <div>
                 <CardHeader>
-                  <CardTitle>{book.title}</CardTitle>
+                  <CardTitle>
+                    <div className="flex items-center justify-between">
+                      {book.title}
+                      {book.edition !== 1 && (
+                        <Badge variant="outline" className="truncate">
+                          {`${book.edition}${
+                            book.edition === 2
+                              ? "nd"
+                              : book.edition === 3
+                                ? "rd"
+                                : "th"
+                          } edition`}
+                        </Badge>
+                      )}
+                    </div>
+                  </CardTitle>
                   <CardDescription>{book.authors}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <blockquote className="italic">
+                  <blockquote className="lineline-clamp-6 italic">
                     {book.points?.split("~")[0]}
                   </blockquote>
                 </CardContent>
               </div>
               <CardFooter>
-                <div className="flex w-full items-center justify-between text-sm text-muted-foreground">
+                <div className="flex w-full items-center justify-between">
                   <time
-                    dateTime={pubDate.toDateString()}
-                    className="text-right"
+                    dateTime={book.pubDate.split("/")[2]}
+                    className="text-sm text-muted-foreground"
                   >
-                    {pubDate.toLocaleDateString()}
+                    {book.pubDate.split("/")[2]}
                   </time>
+
                   <Link
                     href={`/books/${book.isbn}`}
-                    className={buttonVariants({ variant: "outline" })}
+                    className={buttonVariants({ variant: "ghost" })}
                   >
-                    <ArrowRight />
+                    <Ellipsis />
                   </Link>
                 </div>
               </CardFooter>
