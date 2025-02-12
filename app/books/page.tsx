@@ -11,7 +11,7 @@ import {
 import { buttonVariants } from "@/components/ui/button";
 
 import Link from "next/link";
-import { Ellipsis } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { parsePubDate } from "@/lib/utils";
 
@@ -35,7 +35,12 @@ export default function Page() {
                 <CardHeader>
                   <CardTitle>
                     <div className="flex items-center justify-between">
-                      {book.title}
+                      <Link
+                        href={`/books/${book.isbn}`}
+                        className="underline-offset-4 hover:underline"
+                      >
+                        {book.title}
+                      </Link>
                       {book.edition !== 1 && (
                         <Badge variant="outline" className="truncate">
                           {`${book.edition}${
@@ -70,7 +75,7 @@ export default function Page() {
                     href={`/books/${book.isbn}`}
                     className={buttonVariants({ variant: "ghost" })}
                   >
-                    <Ellipsis />
+                    <ArrowRight />
                   </Link>
                 </div>
               </CardFooter>

@@ -2,9 +2,9 @@ import { books } from "@/lib/databank/books";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button";
-import { Check, Star } from "lucide-react";
-import { cn, processAuthors } from "@/lib/utils";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { ArrowUpRight } from "lucide-react";
+import { processAuthors } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
@@ -13,6 +13,7 @@ import {
   TableCell,
   TableRow,
 } from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
 
 export default async function Page({
   params,
@@ -48,37 +49,41 @@ export default async function Page({
             >
               by {processAuthors(book.authors).join(" ,")}
             </h2>
-            <div className="flex items-center">
-              <p className="text-lg sm:text-xl">book price or something</p>
+            <div className="flex items-center pt-2">
+              <Badge variant="outline" className="truncate">
+                {`${book.edition}${
+                  book.edition === 1
+                    ? "st"
+                    : book.edition === 2
+                      ? "nd"
+                      : book.edition === 3
+                        ? "rd"
+                        : "th"
+                } edition`}
+              </Badge>
 
-              <div className="ml-4 border-l border-gray-300 pl-4">
-                <h2 className="sr-only">Reviews</h2>
-                <div className="flex items-center">
-                  <div>
-                    <div className="flex items-center">
-                      {[0, 1, 2, 3, 4].map((rating) => (
-                        <Star
-                          key={rating}
-                          aria-hidden="true"
-                          className={cn("size-5 shrink-0")}
-                        />
-                      ))}
-                    </div>
-                    <p className="sr-only">4 out of 5 stars</p>
-                  </div>
-                  <p className="ml-2 text-sm">5 reviews</p>
-                </div>
+              <div className="ml-4 border-l pl-4 text-sm">
+                <span className="font-semibold">Published: </span>
+                <time dateTime={book.pubDate} className="text-muted-foreground">
+                  {book.pubDate}
+                </time>
+              </div>
+
+              <div className="ml-4 border-l pl-4 text-sm">
+                <Button variant="link" asChild>
+                  <a
+                    href={book.catalogueUrl}
+                    rel="noreferrer noopener"
+                    target="_blank"
+                  >
+                    View In Catalogue
+                    <ArrowUpRight />
+                  </a>
+                </Button>
               </div>
             </div>
             <div className="mt-4 space-y-6">
               <p className="text-base">description</p>
-            </div>
-            <div className="mt-6 flex items-center">
-              <Check
-                aria-hidden="true"
-                className="size-5 shrink-0 text-green-500"
-              />
-              <p className="ml-2 text-sm">In stock and ready to ship</p>
             </div>
 
             <Card className="mt-6">
