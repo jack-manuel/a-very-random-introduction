@@ -16,21 +16,23 @@ import { sortedBooks } from "@/lib/book-functions";
 export default async function Page({
   searchParams,
 }: {
-  searchParams: { sortPubDate?: string };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const sortPubDate = (await searchParams).sortPubDate;
+  const sortDir = (await searchParams).sortDir;
 
-  const sortDirection = sortPubDate === "desc" ? "desc" : "asc";
-  const books = sortedBooks(sortDirection);
+  const books =
+    sortDir === "asc" || sortDir === "desc"
+      ? sortedBooks(sortDir)
+      : sortedBooks();
 
   return (
     <div className="p-4">
       <div className="my-2 flex items-center gap-x-2 px-4">
         <Link
-          href={`/books?sortPubDate=${sortDirection === "asc" ? "desc" : "asc"}`}
+          href={`/books?sortDir=${sortDir === "asc" ? "desc" : "asc"}`}
           className={buttonVariants({ variant: "outline" })}
         >
-          {sortDirection === "asc" ? "oldest > newest" : "newest > oldest"}
+          {sortDir === "asc" ? "oldest > newest" : "newest > oldest"}
         </Link>
       </div>
 

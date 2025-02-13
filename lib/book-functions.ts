@@ -16,7 +16,7 @@ export type Book = {
 };
 
 // Sort books by publication date with reduced repetition
-export function sortedBooks(dir: "asc" | "desc" = "asc"): Book[] {
+export function sortedBooks(dir: string = "asc"): Book[] {
   return [...books].sort((a, b) => {
     const dateA = parse(a.pubDate, "dd/MM/yyyy", new Date());
     const dateB = parse(b.pubDate, "dd/MM/yyyy", new Date());
