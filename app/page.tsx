@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
+import RandomBookLink from "@/components/random-book-link";
 
 export default function Page() {
   return (
@@ -10,6 +11,7 @@ export default function Page() {
       <Link className={buttonVariants({ variant: "link" })} href="/books">
         All the books &rarr;
       </Link>
+      <RandomBookLink />
     </div>
   );
 }
