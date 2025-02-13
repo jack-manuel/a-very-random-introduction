@@ -119,7 +119,7 @@ export default async function Page({
         </div>
 
         {book.coverUrl ? (
-          <div className="mt-10 lg:col-start-2 lg:row-span-2 lg:mt-0 lg:self-center">
+          <div className="mt-10 lg:col-start-2 lg:row-span-2 lg:mt-0">
             <Image
               alt="cover image"
               src={book.coverUrl}
@@ -130,7 +130,7 @@ export default async function Page({
             />
           </div>
         ) : (
-          <Card className="mt-10 aspect-[2/3] lg:col-start-2 lg:row-span-2 lg:mt-0 lg:self-center">
+          <Card className="mt-10 aspect-[2/3] lg:col-start-2 lg:row-span-2 lg:mt-0">
             <CardContent className="flex h-full flex-col items-center justify-center font-mono">
               Cover not available
             </CardContent>
