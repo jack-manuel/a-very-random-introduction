@@ -45,7 +45,8 @@ export default async function Page({
             >
               by {processAuthors(book.authors).join(" ,")}
             </h2>
-            <div className="flex items-center pt-2">
+
+            <div className="grid grid-cols-3 place-items-center">
               <Badge variant="outline" className="truncate">
                 {`${book.edition}${
                   book.edition === 1
@@ -58,29 +59,40 @@ export default async function Page({
                 } edition`}
               </Badge>
 
-              <div className="ml-4 border-l pl-4 text-sm">
-                <span className="font-semibold">Published: </span>
+              <div className="flex flex-col text-sm md:flex-row md:gap-x-1">
+                <span className="">Published:</span>
                 <time dateTime={book.pubDate} className="text-muted-foreground">
                   {book.pubDate}
                 </time>
               </div>
 
-              <div className="ml-4 border-l pl-4 text-sm">
-                <Button variant="link" asChild>
-                  <a
-                    href={book.catalogueUrl}
-                    rel="noreferrer noopener"
-                    target="_blank"
-                  >
-                    View In Catalogue
-                    <ArrowUpRight />
-                  </a>
-                </Button>
-              </div>
+              <Button variant="link" asChild>
+                <a
+                  href={book.catalogueUrl}
+                  rel="noreferrer noopener"
+                  target="_blank"
+                >
+                  Catalogue
+                  <ArrowUpRight />
+                </a>
+              </Button>
             </div>
+
             <div className="mt-4 space-y-6">
-              <p className="text-base">description</p>
+              <p className="leading-7 [&:not(:first-child)]:mt-6">
+                {book.blurb}
+              </p>
             </div>
+
+            {book.points && (
+              <div className="mt-4 space-y-6">
+                <ul className="my-6 ml-6 list-disc [&>li]:mt-2">
+                  {book.points.split("~").map((point, index) => (
+                    <li key={index}>{point}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
             <Card className="mt-6">
               <CardHeader>
