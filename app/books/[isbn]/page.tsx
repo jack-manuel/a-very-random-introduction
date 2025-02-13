@@ -1,8 +1,8 @@
 import { books } from "@/lib/databank/books";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import Link from "next/link";
-import { Button, buttonVariants } from "@/components/ui/button";
+
+import { Button } from "@/components/ui/button";
 import { ArrowUpRight } from "lucide-react";
 import { processAuthors } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -26,14 +26,6 @@ export default async function Page({
 
   return (
     <div className="p-2 md:p-4">
-      <div className="flex items-center justify-between border-b py-2">
-        <Link href="/books" className={buttonVariants({ variant: "link" })}>
-          &larr; Back to all books
-        </Link>
-        <Link href="/books" className={buttonVariants({ variant: "link" })}>
-          Random book &rarr;
-        </Link>
-      </div>
       <div className="mx-auto max-w-2xl px-4 sm:px-6 sm:py-12 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
         <div className="lg:max-w-lg">
           <div>
