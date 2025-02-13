@@ -1,5 +1,3 @@
-import { books } from "@/lib/databank/books";
-import { notFound } from "next/navigation";
 import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
@@ -14,6 +12,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import { notFound } from "next/navigation";
+import { getBookByIsbn } from "@/lib/book-functions";
 
 export default async function Page({
   params,
@@ -21,8 +21,12 @@ export default async function Page({
   params: Promise<{ isbn: string }>;
 }) {
   const isbn = (await params).isbn;
-  const book = books.find((b) => b.isbn === isbn);
-  if (!book) return notFound();
+
+  const book = getBookByIsbn(isbn);
+
+  if (!book) {
+    return notFound();
+  }
 
   return (
     <div className="p-2 md:p-4">
@@ -109,7 +113,7 @@ export default async function Page({
               src={book.coverUrl}
               width={350}
               height={550}
-              className="aspect-[2/3] w-full rounded-lg object-cover"
+              className="aspect-[2/3] w-full rounded-lg object-cover shadow"
               priority
             />
           </div>

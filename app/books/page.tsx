@@ -1,5 +1,3 @@
-import { books } from "@/lib/databank/books";
-
 import {
   Card,
   CardContent,
@@ -13,23 +11,35 @@ import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { parsePubDate } from "@/lib/utils";
+import { sortedBooks } from "@/lib/book-functions";
 
-export default function Page() {
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: { sortPubDate?: string };
+}) {
+  const sortPubDate = (await searchParams).sortPubDate;
+
+  const sortDirection = sortPubDate === "desc" ? "desc" : "asc";
+  const books = sortedBooks(sortDirection);
+
   return (
-    <div className="grid grid-cols-1 gap-6 p-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-      {books
-        .filter((book) => book.coverUrl)
-        .sort(
-          (a, b) =>
-            parsePubDate(a.pubDate).getTime() -
-            parsePubDate(b.pubDate).getTime(),
-        )
-        .map((book) => {
+    <div className="p-4">
+      <div className="my-2 flex items-center gap-x-2 px-4">
+        <Link
+          href={`/books?sortPubDate=${sortDirection === "asc" ? "desc" : "asc"}`}
+          className={buttonVariants({ variant: "outline" })}
+        >
+          {sortDirection === "asc" ? "oldest > newest" : "newest > oldest"}
+        </Link>
+      </div>
+
+      <div className="grid grid-cols-1 gap-6 p-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+        {books.map((book) => {
           return (
             <Card
               key={book.isbn}
-              className="col-span-1 flex aspect-[2/3] flex-col justify-between"
+              className="col-span-1 flex aspect-[2/3] flex-col justify-between shadow"
             >
               <div>
                 <CardHeader>
@@ -82,6 +92,7 @@ export default function Page() {
             </Card>
           );
         })}
+      </div>
     </div>
   );
 }
