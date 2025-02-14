@@ -31,7 +31,25 @@ export default async function Page({
   return (
     <div className="p-2 md:p-4">
       <div className="mx-auto max-w-2xl px-4 sm:px-6 sm:py-12 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
-        <div className="lg:max-w-lg">
+        {book.coverUrl ? (
+          <div className="mt-10 lg:col-start-2 lg:row-span-2 lg:mt-0">
+            <Image
+              alt="cover image"
+              src={book.coverUrl}
+              width={350}
+              height={550}
+              className="aspect-[2/3] w-full rounded-lg object-cover shadow"
+              priority
+            />
+          </div>
+        ) : (
+          <Card className="mt-10 aspect-[2/3] lg:col-start-2 lg:row-span-2 lg:mt-0">
+            <CardContent className="flex h-full flex-col items-center justify-center font-mono">
+              Cover not available
+            </CardContent>
+          </Card>
+        )}
+        <div className="mt-4 lg:mt-0 lg:max-w-lg">
           <div>
             <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
               {book.title}
@@ -60,7 +78,6 @@ export default async function Page({
               </Badge>
 
               <div className="flex flex-col text-sm md:flex-row md:gap-x-1">
-                <span className="">Published:</span>
                 <time dateTime={book.pubDate} className="text-muted-foreground">
                   {book.pubDate}
                 </time>
@@ -68,11 +85,11 @@ export default async function Page({
 
               <Button variant="link" asChild>
                 <a
-                  href={book.catalogueUrl}
+                  href={`${book.catalogueUrl}?cc=gb&lang=en&`}
                   rel="noreferrer noopener"
                   target="_blank"
                 >
-                  Catalogue
+                  Buy
                   <ArrowUpRight />
                 </a>
               </Button>
@@ -117,25 +134,6 @@ export default async function Page({
             </Card>
           </section>
         </div>
-
-        {book.coverUrl ? (
-          <div className="mt-10 lg:col-start-2 lg:row-span-2 lg:mt-0">
-            <Image
-              alt="cover image"
-              src={book.coverUrl}
-              width={350}
-              height={550}
-              className="aspect-[2/3] w-full rounded-lg object-cover shadow"
-              priority
-            />
-          </div>
-        ) : (
-          <Card className="mt-10 aspect-[2/3] lg:col-start-2 lg:row-span-2 lg:mt-0">
-            <CardContent className="flex h-full flex-col items-center justify-center font-mono">
-              Cover not available
-            </CardContent>
-          </Card>
-        )}
       </div>
     </div>
   );
